@@ -15,23 +15,26 @@ describe('index.js', () => {
     app.close()
   })
 
+  it('Should have the form element somewhere', (done) => {
+    fs.readFile(path.resolve('views/pages/index.ejs'), 'utf8', function (err, text) {
+      expect(text.indexOf('form') > -1).toBeTruthy()
+      done()
+    });
+  });
+
   it('Should create an GET index \'/\' route', async () => {
     await expect(request(app).get('/')).resolves.toHaveProperty('status', 200);
   });
 
-  it('Should create an GET \'/add-entry\' route', async () => {
-    await expect(request(app).get('/add-entry')).resolves.toHaveProperty('status', 200);
-  });
-
-  it('Should create an POST \'/add-entry\' route', async () => {
-    await expect(request(app).post('/add-entry')).resolves.toHaveProperty('status', 200);
+  it('Should create an GET \'/api/shouts\' route', async () => {
+    await expect(request(app).get('/api/shouts')).resolves.toHaveProperty('status', 200);
   });
 
   it('Should store stuff in the Database when calling POST \'/add-entry\' route', async () => {
     await expect(request(app)
-        .post('/add-entry')
+        .post('/api/shouts')
         .send({username: 'TESTING SCRIPT', message: 'TESTING DATA'})
-    ).resolves.not.toHaveProperty('status', 404);
+    ).resolves.toHaveProperty('status', 200);
     
 
     const {username, message} = db.prepare('SELECT * FROM shouts WHERE username=?').get('TESTING SCRIPT');
