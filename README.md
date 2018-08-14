@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hft-stuttgart-ipr-assignments/hft-asgmt-nodejs.svg?branch=master)](https://travis-ci.org/hft-stuttgart-ipr-assignments/hft-asgmt-nodejs)
+[![Build Status](https://travis-ci.org/hft-stuttgart-ipr-assignments/hft-asgmt-js-async.svg?branch=master)](https://travis-ci.org/hft-stuttgart-ipr-assignments/hft-asgmt-js-async)
 
 # hft-asgmt-js-async
 
