@@ -8,3 +8,11 @@
   - [ ] Create a route, for `POST /api/shouts` to receive JSON and add a new shout
   - [ ] The homepage must not reload!
 
+The Json must look like:
+
+```js
+{
+  username: 'some string',
+  message: 'another string',
+}
+```
