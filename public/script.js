@@ -1,4 +1,4 @@
-// THIS IS FOR AUTOMATED TESTING
+/// THIS IS FOR AUTOMATED TESTING
 if (typeof module !== 'undefined') {
   global.$ = require('jquery')
 }
@@ -9,7 +9,7 @@ $( document ).ready((() => {
   // If we dont "wait" for document to be ready, we cannot access HTML elements
   // for testing purposes, you can use a "debugger;" statement or also "console.log(element)"
   console.log('DOM is ready!')
-  
+
   getData(); // TODO: Implement getData Method
   const input = $('#hft-shoutbox-form-input-name')
   const textarea = $('#hft-shoutbox-form-textarea')
@@ -24,7 +24,10 @@ $( document ).ready((() => {
     }
   })
 
-  // TODO: Handle submit
+  $("#hft-shoutbox-form").on("submit",  async (e) => {
+    e.preventDefault();
+    await saveData(input.val(), textarea.val());
+  })
 }))
 
 function formElementIsValid(element, minLength) {
@@ -47,11 +50,20 @@ function toggleSubmit(disable) {
 }
 
 async function getData() {
-  // TODO: Implement
+  const response = await fetch('/api/shouts');
+  const fetchedShouts = await response.json()
+  fetchedShouts.map(shout => addTableEntity(shout))
 }
 
+
 async function saveData(username, message) {
-  // TODO: Implement
+  const body = JSON.stringify({username, message})
+  const response = await fetch('/api/shouts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body
+  });
+  addTableEntity(await response.json());
 }
 
 // THIS IS FOR AUTOMATED TESTING
@@ -61,4 +73,6 @@ if (typeof module !== 'undefined') {
     saveData
   }
 }
+
+const addTableEntity = savedShout => $(".shout-table").append(`<tr><td>${savedShout.id}</td><td>${savedShout.username}</td><td>${savedShout.message}</td></tr>`)
 // END

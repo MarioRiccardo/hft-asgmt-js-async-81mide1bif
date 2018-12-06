@@ -18,6 +18,19 @@ app.get('/', async (req, res) => {
   });
 });
 
+app.get('/api/shouts', async (req, res) => {
+  db.all('SELECT * FROM shouts', (err, shouts) => {
+    res.send(JSON.stringify(shouts))
+  });
+});
+
+app.post('/api/shouts', (req, res) => {
+  const {username, message} = req.body
+  db.run('INSERT INTO shouts (username, message) VALUES (?,?);',[username, message], error => {
+    res.send("DONE");
+  })
+});
+
 app.get('/add-entry', (req, res) => {
   res.render('pages/add-entry', { success: true });
 });
